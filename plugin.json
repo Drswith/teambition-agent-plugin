@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "teambition",
+  "version": "0.1.0",
+  "description": "通过 Teambition 开放平台 MCP 查询和管理项目、任务与工时。",
+  "author": {
+    "name": "Drswith"
+  },
+  "repository": "https://github.com/Drswith/teambition-agent-plugin",
+  "license": "MIT"
+}

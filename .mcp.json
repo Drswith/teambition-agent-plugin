@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "teambition": {
+      "type": "http",
+      "url": "https://open.teambition.com/api/mcp/v2"
+    }
+  }
+}

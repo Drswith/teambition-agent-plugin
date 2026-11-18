@@ -1,0 +1,20 @@
+{
+  "name": "teambition-plugins",
+  "interface": {
+    "displayName": "Teambition AI"
+  },
+  "plugins": [
+    {
+      "name": "teambition",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

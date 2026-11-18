@@ -1,0 +1,13 @@
+{
+  "name": "teambition-plugins",
+  "description": "Teambition 开放平台 MCP 插件商店。",
+  "owner": {
+    "name": "Drswith"
+  },
+  "plugins": [
+    {
+      "name": "teambition",
+      "source": "./"
+    }
+  ]
+}

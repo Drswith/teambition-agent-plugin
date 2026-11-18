@@ -1,0 +1,20 @@
+{
+  "name": "teambition",
+  "version": "0.1.0",
+  "description": "通过 Teambition 开放平台 MCP 查询和管理项目、任务与工时。",
+  "author": {
+    "name": "Drswith"
+  },
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Teambition",
+    "shortDescription": "查询和管理 Teambition 项目、任务与工时",
+    "composerIcon": "./assets/teambition-app-icon.png",
+    "logo": "./assets/teambition-app-icon.png",
+    "defaultPrompt": [
+      "列出我参与的 Teambition 项目。",
+      "查找跨项目分配给我的未完成任务。"
+    ]
+  }
+}
