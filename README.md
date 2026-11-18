@@ -31,6 +31,28 @@ claude mcp login plugin:teambition:teambition
 
 也可以在新会话中通过 `/mcp` 选择插件的 Teambition 服务并发起授权。显式调用技能可用 `/teambition:teambition`。
 
+### Claude Desktop
+
+在「Plugins → Add → Add marketplace → Add from a repository」中同步 `https://github.com/Drswith/teambition-agent-plugin`，打开 Teambition 并点击「Add」。详情页会列出套件包含的 `teambition` Skill 和连接器；点击连接器的「Connect」完成 OAuth 设置。
+
+2026-11-18 在 Claude Desktop 5.11492.5、当前 Free 账号上的实测结果：
+
+- **安装通过**：市场同步和插件安装成功，详情页识别了套件内的 Skill 和连接器。
+- **授权通过（预注册方式）**：默认的「Register automatically」报无法向 Teambition 注册客户端，尚未进入登录页；改用预注册 Client ID 后完成 OAuth，桌面端显示 `Connected`，聊天中的 Teambition 工具已启用。
+- **项目查询未验证通过**：Claude 账号提示 `Replies from Claude are unavailable on your account`，要求完成 Anthropic 账号验证。解除该限制后，还需在桌面聊天中实际执行 `teambition.project.query(my=true)`；安装和授权成功不代表项目查询已通过。此结果与 Claude Code CLI 的验证分开记录。
+
+预注册方式使用官方 `https://account.teambition.com/oauth2/mcp/register`，回调地址为 `https://claude.ai/api/mcp/auth_callback`，客户端认证方式为 `token_endpoint_auth_method=none`。本次注册请求省略 `application_type`，服务端返回 `native`。随后在 Claude 中选择「Use your own OAuth client」，填写返回的 Client ID，留空 secret。接入者需使用自己注册的客户端，仓库不包含测试 Client ID 或授权凭据。
+
+对注册接口保持相同回调地址、`token_endpoint_auth_method=none` 和其他参数，仅改变 `application_type`，结果如下：
+
+| `application_type` | 注册结果 |
+| --- | --- |
+| `web` | HTTP 400：`invalid_client_metadata`，`application_type must be native` |
+| `native` | HTTP 201，成功 |
+| 省略 | HTTP 201，成功，返回 `application_type=native` |
+
+已确认 Teambition 的该注册接口拒绝 `web` 客户端，这解释了预注册方案为何可行，并指出自动注册的兼容性排查方向。本次 Claude 云端自动注册的原始请求尚未取得，仍需服务端日志确认该次失败是否由此字段触发。`application_type` 与 `token_endpoint_auth_method` 是两个独立字段，不能将该错误归因于缺少 client secret。
+
 ### WorkBuddy / CodeBuddy
 
 在 WorkBuddy 的「专家·技能·连接器 → 技能 → 套件 → 添加市场」中添加仓库路径，再从 **Teambition AI** 市场安装 `teambition` 套件。CodeBuddy CLI 可执行以下命令。
