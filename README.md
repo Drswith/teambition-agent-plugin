@@ -4,7 +4,7 @@
 
 ## 安装
 
-克隆本仓库后，在仓库根目录执行对应客户端的命令。插件 ID 为 `teambition@teambition-plugins`。
+克隆本仓库后，在仓库根目录执行对应客户端的命令。
 
 ### Codex
 
@@ -33,14 +33,20 @@ claude mcp login plugin:teambition:teambition
 
 ### WorkBuddy / CodeBuddy
 
-在 WorkBuddy 的「专家·技能·连接器 → 技能 → 套件 → 添加市场」中添加仓库路径，再安装 `teambition` 套件。CodeBuddy CLI 可执行以下命令。
+在 WorkBuddy 的「专家·技能·连接器 → 技能 → 套件 → 添加市场」中添加仓库路径，再从 **Teambition AI** 市场安装 `teambition` 套件。CodeBuddy CLI 可执行以下命令。
 
 ```sh
 codebuddy plugin marketplace add "$PWD"
-codebuddy plugin install teambition@teambition-plugins
+codebuddy plugin install "teambition@Teambition AI"
 ```
 
-在客户端的 MCP 界面查看 Teambition 连接状态，并按提示完成授权。WorkBuddy 桌面客户端的 Teambition OAuth 回调及数据读取仍待验证。[CodeBuddy MCP 文档](https://www.workbuddy.cn/docs/cli/mcp)
+在 WorkBuddy 的「专家·技能·连接器 → 连接器 → 自定义连接器」中找到来自插件 `teambition` 的 MCP，点击「连接」并完成浏览器授权，再新建会话查询项目。[CodeBuddy MCP 文档](https://www.workbuddy.cn/docs/cli/mcp)
+
+WorkBuddy 5.11.3 支持套件内的 MCP。若在桌面端运行期间通过 CLI 安装，套件可能显示已安装，但桌面端仍使用安装前的 MCP 列表。此时到「技能 → 已安装」将 `teambition` 关闭再启用，以触发重新扫描；随后 MCP 管理页应出现 `teambition`。仅新建会话不会触发该扫描，`scope=plugin blocked by strict MCP config` 日志也不能据此判定套件不支持 MCP：桌面端统一加载并向会话注入 MCP 配置。
+
+2026-11-18 已在 WorkBuddy 5.11.3 桌面端完成 OAuth 连接，加载 163 个 Teambition 工具；新会话加载本套件 Skill 后，实际调用 `teambition.project.query(my=true)`，返回 5 个去重项目，无后续分页游标。未测试写入和令牌到期续期。
+
+WorkBuddy 5.11.3 的本地套件市场和已安装列表在构建卡片时省略 `icon` 和 `iconUrl`，因此使用首字母占位图。Teambition 在套件市场显示为绿色的 `T`。
 
 ### DeepSeek Harness 兼容接入
 
@@ -91,6 +97,6 @@ codebuddy mcp add --transport http teambition-docs https://open.teambition.com/d
 
 ## 插件结构
 
-根目录的 `plugin.json`、`mcp.json` 与 `skills/` 构成 [Agent Plugins 1.0](https://agent-plugins.org/) 标准包。三个客户端共用 `.mcp.json` 和技能目录。官方服务地址同时出现在 `mcp.json` 与 `.mcp.json`，两个文件分别使用标准包和客户端所需的传输类型。
+根目录的 `plugin.json`、`mcp.json` 与 `skills/` 构成 [Agent Plugins 1.0](https://agent-plugins.org/) 标准包。客户端共用技能目录；WorkBuddy 5.11.3 桌面端优先读取根目录的标准包，Codex 和 Claude Code 使用各自清单及 `.mcp.json`。官方服务地址同时出现在 `mcp.json` 与 `.mcp.json`，两个文件分别使用标准包和客户端所需的传输类型。
 
 插件图标取自 [Teambition 的 App Store 页面](https://apps.apple.com/cn/app/teambition/id656664814)，采用与 [Teambition 官网](https://www.teambition.com/) 一致的蓝色品牌标志。插件代码采用 MIT 许可。
