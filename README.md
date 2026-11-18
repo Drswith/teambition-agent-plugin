@@ -10,7 +10,7 @@
 
 ```sh
 codex plugin marketplace add "$PWD"
-codex plugin add teambition@teambition-plugins
+codex plugin add teambition@teambition-ai
 ```
 
 如果客户端显示需要授权，执行以下命令，在浏览器中选择钉钉账号并完成授权。已有同名、同地址的 OAuth 凭据可被复用。
